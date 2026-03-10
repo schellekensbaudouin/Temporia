@@ -1,3 +1,5 @@
+
+
 <html lang="fr">
     
     <head>
@@ -64,10 +66,10 @@
             </p>
 
             <div class="flex flex-col md:flex-row gap-6 justify-center">
-                <a href="inscription.php" class="px-12 py-5 bg-temp-gold text-white uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-temp-dark transition-all duration-500 shadow-2xl">
+                <a href="index.php?action=register" class="px-12 py-5 bg-temp-gold text-white uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-temp-dark transition-all duration-500 shadow-2xl">
                     Rejoindre le club
                 </a>
-                <a href="connexion.php" class="px-12 py-5 border border-white text-white uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-temp-dark transition-all duration-500">
+                <a href="index.php?action=login" class="px-12 py-5 border border-white text-white uppercase tracking-widest text-xs font-bold hover:bg-white hover:text-temp-dark transition-all duration-500">
                     Se connecter
                 </a>
             </div>

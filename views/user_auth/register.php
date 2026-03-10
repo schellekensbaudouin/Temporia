@@ -1,3 +1,52 @@
+<?php 
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username = trim($_POST['username'] ?? '');
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'];
+
+    /* Si il y a des erreurs on les rajoute à la variable errors */
+    $errors = [];
+    if (empty($username)) {
+        $errors['user_name'] = "Le nom d'utilisateur est obligatoire.";
+    }
+
+    if (empty($email)) {
+        $errors['email'] = "L'email est obligatoire.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = "Le format de l'email est invalide.";
+    }
+
+    if (empty($password)) {
+        $errors['password'] = "Le mot de passe est obligatoire.";
+    } elseif (strlen($password) < 8) {
+        $errors['password'] = "Le mot de passe doit contenir plus de 8 caractères";
+    } else {
+        $password = password_hash($password, PASSWORD_DEFAULT);
+    }
+
+
+
+    if (!empty($errors)) {
+        $sql = "INSERT INTO user (email, hash_pwd, user_name) VALUES (:email, :password, :user_name)";
+        $stmt = $conn->prepare($sql);
+        $result = $stmt->execute([
+            ':email' => $email,
+            ':user_name' => $username,
+            ':password' => $password,
+        ]);
+        if ($result) {
+            header('Location: index.php?action=login');
+            exit;
+        } else {
+
+        }
+    } else {
+
+    }
+}
+?>
 
 
 <html lang="fr">
@@ -35,10 +84,20 @@
                 <p class="text-temp-sand text-xs uppercase tracking-widest">Rejoignez l'élite horlogère</p>
             </header>
 
-            <form action="inscription_user.php" method="POST" class="space-y-8">
+            <form action="index.php?action=register" method="POST" class="space-y-8">
+
+<!-- les messages d'erreurs -->
+                <?php if (!empty($errors)): ?>
+                    <div class="error-message" id="errorMessage">
+                        <?php foreach ($errors as $error): ?>
+                            <?= $error . "<br>" ?>
+                        <?php endforeach; ?>
+                    </div>
+                <?php endif; ?>
+
                 <div class="relative">
                     <input type="text" name="username" required placeholder=" " class="peer w-full border-b border-gray-300 py-2 outline-none focus:border-temp-gold transition-colors bg-transparent">
-                    <label class="absolute left-0 top-2 text-gray-400 text-xs uppercase tracking-widest transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-2 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-temp-gold">Nom complet</label>
+                    <label class="absolute left-0 top-2 text-gray-400 text-xs uppercase tracking-widest transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-2 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-temp-gold">Nom d'utilisateur</label>
                 </div>
                 <div class="relative">
                     <input type="email" name="email" required placeholder=" " class="peer w-full border-b border-gray-300 py-2 outline-none focus:border-temp-gold transition-colors bg-transparent">
@@ -49,12 +108,13 @@
                     <label class="absolute left-0 top-2 text-gray-400 text-xs uppercase tracking-widest transition-all peer-placeholder-shown:text-sm peer-placeholder-shown:top-2 peer-focus:-top-4 peer-focus:text-xs peer-focus:text-temp-gold">Mot de passe</label>
                 </div>
                 <div class="pt-4">
-                    <button type="submit" class="w-full bg-temp-dark text-white py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-temp-gold transition-all duration-500 shadow-lg">S'inscrire</button>
+                    
+                        <button type="submit" class="w-full bg-temp-dark text-white py-4 uppercase tracking-[0.2em] text-xs font-bold hover:bg-temp-gold transition-all duration-500 shadow-lg">S'inscrire</button>
                 </div>
             </form>
 
             <footer class="mt-10 text-center">
-                <p class="text-gray-400 text-xs uppercase tracking-widest">Déjà membre ? <a href="connexion.php" class="text-temp-gold hover:underline ml-1">Se connecter</a></p>
+                <p class="text-gray-400 text-xs uppercase tracking-widest">Déjà membre ? <a href="index.php?action=login" class="text-temp-gold hover:underline ml-1">Se connecter</a></p>
             </footer>
         </div>
     </main>
