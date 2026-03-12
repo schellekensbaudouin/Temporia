@@ -1,3 +1,47 @@
+<?php 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $email = trim($_POST['email'] ?? '');
+    $password = $_POST['password'];
+
+    $errors = [];
+    if (empty($email)) {
+        $errors['email'] = "L'email est obligatoire.";
+    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errors['email'] = "Le format de l'email est invalide.";
+    }
+
+    if (empty($password)) {
+        $errors['password'] = "Le mot de passe est obligatoire.";
+    } elseif (strlen($password) < 8) {
+        $errors['password'] = "Le mot de passe doit contenir plus de 8 caractères";
+    }
+
+    if (empty($errors)) {
+        $sql = "SELECT * FROM user WHERE email = :email";
+        $stmt = $conn->prepare($sql);
+        $stmt->execute([
+            ':email' => $email
+        ]);
+        $user = $stmt->fetch();
+        if (!$user) {
+            $errors['user'] = "Utilisateur introuvable";
+        }
+
+        if ($user && password_verify($password, $user['hash_pwd'])) {
+            $_SESSION['user'] = [
+                'id' => $user['id'],
+                'username' => $user['user_name'],
+                'role' => $user['roles']
+            ];
+            header('Location: index.php?action=dashboard');
+            exit;
+        } else {
+            $errors['password'] = "Identifiants incorrects";
+        }
+    }
+}
+?>
+
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
@@ -34,12 +78,22 @@
                 <p class="text-temp-sand text-xs uppercase tracking-widest">Ravi de vous revoir</p>
             </header>
 
-            <?php if(isset($_GET['error'])): ?>
-            <div class="mb-8 p-4 bg-red-50 border-l-4 border-red-500 text-red-700 flex items-center space-x-3">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path></svg>
-                <p class="text-xs uppercase tracking-widest font-bold">Identifiants incorrects</p>
+            <?php if (!empty($errors)): ?>
+    <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+        <div class="flex">
+            <div class="ml-3">
+                <p class="text-xs text-red-700 uppercase tracking-widest font-bold">
+                    Erreurs détectées :
+                </p>
+                <ul class="text-xs text-red-600 list-disc list-inside mt-1">
+                    <?php foreach ($errors as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
             </div>
-            <?php endif; ?>
+        </div>
+    </div>
+<?php endif; ?>
 
             <form action="index.php?action=login" method="POST" class="space-y-8">
                 

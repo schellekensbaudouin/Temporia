@@ -28,6 +28,10 @@ switch ($action) {
     case 'logout':
         require_once ROOT . '/views/user_auth/logout.php';
         break;
+
+    case 'dashboard':
+        require_once ROOT . '/views/user/dashboard.php';
+        break;
         
     case 'profile': 
         require_once ROOT . '/views/user/profile.php';

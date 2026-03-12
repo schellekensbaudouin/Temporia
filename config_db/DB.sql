@@ -13,7 +13,7 @@ CREATE TABLE USER (
     user_name VARCHAR(50) NOT NULL UNIQUE,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     profile_picture TEXT,
-    roles VARCHAR(50) DEFAULT 'user', -- Stocké en string (ex: "ROLE_USER" ou "admin")
+    roles VARCHAR(50) DEFAULT 'acheteur', -- Stocké en string (ex: "acheteur", "vendeur" ou "admin")
     bio TEXT,
     update_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );

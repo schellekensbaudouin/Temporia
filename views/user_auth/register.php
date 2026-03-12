@@ -26,9 +26,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $password = password_hash($password, PASSWORD_DEFAULT);
     }
 
+    if (empty($errors)) {
 
-
-    if (!empty($errors)) {
+    try {
         $sql = "INSERT INTO user (email, hash_pwd, user_name) VALUES (:email, :password, :user_name)";
         $stmt = $conn->prepare($sql);
         $result = $stmt->execute([
@@ -39,13 +39,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if ($result) {
             header('Location: index.php?action=login');
             exit;
-        } else {
-
+            } 
+        } catch (PDOException $e) {
+            // Gestion d'erreur (ex: email déjà existant)
+            if ($e->getCode() == 23000) {
+                $errors['email'] = "Cette adresse email est déjà utilisée.";
+            } else {
+                $errors['db'] = "Erreur lors de l'inscription : " . $e->getMessage();
+            }
         }
-    } else {
-
     }
 }
+
 ?>
 
 
@@ -88,12 +93,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <!-- les messages d'erreurs -->
                 <?php if (!empty($errors)): ?>
-                    <div class="error-message" id="errorMessage">
-                        <?php foreach ($errors as $error): ?>
-                            <?= $error . "<br>" ?>
-                        <?php endforeach; ?>
-                    </div>
-                <?php endif; ?>
+    <div class="bg-red-50 border-l-4 border-red-400 p-4 mb-6">
+        <div class="flex">
+            <div class="ml-3">
+                <p class="text-xs text-red-700 uppercase tracking-widest font-bold">
+                    Erreurs détectées :
+                </p>
+                <ul class="text-xs text-red-600 list-disc list-inside mt-1">
+                    <?php foreach ($errors as $error): ?>
+                        <li><?= htmlspecialchars($error) ?></li>
+                    <?php endforeach; ?>
+                </ul>
+            </div>
+        </div>
+    </div>
+<?php endif; ?>
 
                 <div class="relative">
                     <input type="text" name="username" required placeholder=" " class="peer w-full border-b border-gray-300 py-2 outline-none focus:border-temp-gold transition-colors bg-transparent">
