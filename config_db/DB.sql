@@ -53,7 +53,33 @@ CREATE TABLE MESSAGE (
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     is_active BOOLEAN DEFAULT TRUE,
     
-    -- L'erreur était ici : il faut préciser la cible
     FOREIGN KEY (user_id) REFERENCES USER(id) ON DELETE SET NULL, 
     FOREIGN KEY (article_id) REFERENCES ARTICLE(id) ON DELETE CASCADE
+);
+
+CREATE TABLE PROFIL_VENDEUR (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    user_id INT UNIQUE NOT NULL,  -- lien avec USER
+
+    -- Infos privées (Vendeur)
+    first_name VARCHAR(100) NOT NULL,  -- Prénom du vendeur 
+    last_name VARCHAR(100) NOT NULL,  -- Nom du vendeur
+    birth_date DATE NOT NULL,  -- Date de naissance
+    national_id VARCHAR(50) NOT NULL, -- Numéro d'identité national
+    phone VARCHAR(20) NOT NULL,    -- Numéro de téléphone du vendeur
+    address TEXT NOT NULL,         -- Adresse complète
+    country VARCHAR(100) NOT NULL, -- Pays
+    id_front_url TEXT NOT NULL,   -- Photo de la carte d identité recto (privé)
+    id_back_url TEXT NOT NULL,    -- Photo de la carte d identité verso (privé)
+
+    -- Infos publiques du Vendeur visibles sur la marketplace
+    shop_name VARCHAR(150) NOT NULL,   -- nom affiché publiquement
+    shop_description TEXT,             -- description boutique
+    shop_logo_url TEXT,                -- logo boutique
+
+    verified_status ENUM('pending','approved','rejected') DEFAULT 'pending',  -- Validation Approuvé ou rejeter
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES USER(id) ON DELETE CASCADE
 );

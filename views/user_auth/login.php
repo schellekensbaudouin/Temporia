@@ -64,11 +64,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body class="bg-[#fdfcf0] text-temp-dark min-h-screen flex flex-col">
 
-    <nav class="flex items-center justify-between px-8 py-6 bg-white border-b border-gray-100">
-        <a href="index.php" class="text-xs uppercase tracking-widest font-medium">Retour</a>
-        <div class="text-2xl font-serif tracking-tighter uppercase font-bold">Temporia</div>
-        <div class="w-10"></div>
-    </nav>
+    <?php include '../views/includes/navbar.php'; ?>
 
     <main class="flex-grow flex items-center justify-center px-4 py-12">
         <div class="bg-white p-8 md:p-12 shadow-2xl w-full max-w-md border border-gray-100">

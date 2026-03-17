@@ -35,13 +35,15 @@ if (empty($_SESSION['user'])) {
     <div class="flex max-w-[1440px] mx-auto">
         
         <?php if($_SESSION['user']['role'] === "acheteur"): ?>
+
+        <!--  inclure la navbar mais faut voir avec le disign !  -->
         
         <aside class="w-72 h-[calc(100vh-80px)] border-r border-[#E5E1D8] p-10 hidden lg:block sticky top-20">
             <nav class="space-y-12">
                 <div>
                     <p class="text-[10px] tracking-[0.4em] uppercase text-[#A39274] mb-6 font-bold">Mon Espace</p>
                     <ul class="space-y-4 text-sm tracking-wide">
-                        <li><a href="#" class="hover:italic hover:pl-2 transition-all block font-medium">Tableau de bord</a></li>
+                        <li><a href="index.php?action=dashboard" class="hover:italic hover:pl-2 transition-all block font-medium">Tableau de bord</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-black transition-colors block">Mes Achats</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-black transition-colors block">Ma Wishlist</a></li>
                         <li><a href="#" class="text-gray-400 hover:text-black transition-colors block">Messages</a></li>
@@ -50,7 +52,7 @@ if (empty($_SESSION['user'])) {
                 <div>
                     <p class="text-[10px] tracking-[0.4em] uppercase text-[#A39274] mb-6 font-bold">Compte</p>
                     <ul class="space-y-4 text-sm tracking-wide">
-                        <li><a href="#" class="text-gray-400 hover:text-black transition-colors block">Profil & Sécurité</a></li>
+                        <li><a href="index.php?action=profile" class="text-gray-400 hover:text-black transition-colors block">Profil & Sécurité</a></li>
                         <li><a href="index.php?action=logout" class="text-red-900/60 hover:text-red-900 transition-colors block">Déconnexion</a></li>
                     </ul>
                 </div>
@@ -63,7 +65,7 @@ if (empty($_SESSION['user'])) {
                     <h2 class="font-serif text-4xl italic mb-2">Bienvenue <?php echo $_SESSION['user']['username'] ?> dans l'élite</h2>
                     <p class="text-xs tracking-widest uppercase text-gray-500">Votre profil acheteur est actif.</p>
                 </div>
-                <a href="devenir_vendeur.php" class="bg-[#A39274] text-white text-[10px] tracking-[0.3em] uppercase px-8 py-4 hover:bg-[#1A1A1A] transition-colors shadow-xl">
+                <a href="index.php?action=devenir_vendeur" class="bg-[#A39274] text-white text-[10px] tracking-[0.3em] uppercase px-8 py-4 hover:bg-[#1A1A1A] transition-colors shadow-xl">
                     Devenir Vendeur
                 </a>
             </div>
@@ -73,7 +75,7 @@ if (empty($_SESSION['user'])) {
                 <p class="text-sm text-gray-500 max-w-lg mx-auto mb-8">
                     Rejoignez notre cercle très fermé de vendeurs certifiés et proposez vos montres de luxe à notre communauté internationale.
                 </p>
-                <a href="devenir_vendeur.php" class="inline-block border border-[#1A1A1A] text-[#1A1A1A] text-[10px] tracking-[0.3em] uppercase px-8 py-3 hover:bg-[#1A1A1A] hover:text-white transition-colors">
+                <a href="index.php?action=devenir_vendeur" class="inline-block border border-[#1A1A1A] text-[#1A1A1A] text-[10px] tracking-[0.3em] uppercase px-8 py-3 hover:bg-[#1A1A1A] hover:text-white transition-colors">
                     Commencer à vendre
                 </a>
             </div>

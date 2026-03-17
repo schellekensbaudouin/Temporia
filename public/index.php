@@ -37,6 +37,10 @@ switch ($action) {
         require_once ROOT . '/views/user/profile.php';
         break;
 
+    case 'devenir_vendeur': 
+            require_once ROOT . '/views/user/devenir_vendeur.php';
+            break;
+
     default:
         // Optionnel : Gérer le cas où l'action n'existe pas
         http_response_code(404);
