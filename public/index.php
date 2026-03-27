@@ -33,8 +33,12 @@ switch ($action) {
         require_once ROOT . '/views/user/dashboard.php';
         break;
         
-    case 'profile': 
-        require_once ROOT . '/views/user/profile.php';
+    case 'profile_acheteur': 
+        require_once ROOT . '/views/user/profile_acheteur.php';
+        break;
+
+    case 'profile_vendeur':
+        require_once ROOT . '/views/user/profile_vendeur.php';
         break;
 
     case 'devenir_vendeur': 

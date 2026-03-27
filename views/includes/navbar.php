@@ -3,7 +3,7 @@
     <div class="max-w-[1440px] mx-auto px-6 h-20 flex justify-between items-center">
         
         <div class="flex items-center space-x-6">
-            <a href="contact.php" class="hidden md:block text-[10px] tracking-[0.3em] uppercase font-bold text-[#1A1A1A] hover:text-[#A39274] transition-colors">
+            <a href="" class="hidden md:block text-[10px] tracking-[0.3em] uppercase font-bold text-[#1A1A1A] hover:text-[#A39274] transition-colors">
                 Contact
             </a>
             

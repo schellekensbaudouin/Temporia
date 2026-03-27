@@ -52,7 +52,7 @@ if (empty($_SESSION['user'])) {
                 <div>
                     <p class="text-[10px] tracking-[0.4em] uppercase text-[#A39274] mb-6 font-bold">Compte</p>
                     <ul class="space-y-4 text-sm tracking-wide">
-                        <li><a href="index.php?action=profile" class="text-gray-400 hover:text-black transition-colors block">Profil & Sécurité</a></li>
+                        <li><a href="index.php?action=profile_acheteur" class="text-gray-400 hover:text-black transition-colors block">Profil & Sécurité</a></li>
                         <li><a href="index.php?action=logout" class="text-red-900/60 hover:text-red-900 transition-colors block">Déconnexion</a></li>
                     </ul>
                 </div>
@@ -82,7 +82,7 @@ if (empty($_SESSION['user'])) {
         </main>
 
 
-        <?php elseif($_SESSION['user']['roles'] === 'vendeur'): ?>
+        <?php elseif($_SESSION['user']['role'] === 'vendeur'): ?>
         
         <aside class="w-72 h-[calc(100vh-80px)] border-r border-[#E5E1D8] p-10 hidden lg:block sticky top-20">
             <nav class="space-y-12">
@@ -97,7 +97,7 @@ if (empty($_SESSION['user'])) {
                 <div>
                     <p class="text-[10px] tracking-[0.4em] uppercase text-[#A39274] mb-6 font-bold">Compte</p>
                     <ul class="space-y-4 text-sm tracking-wide">
-                        <li><a href="#" class="text-gray-400 hover:text-black transition-colors block">Profil & Sécurité</a></li>
+                        <li><a href="index.php?action=profile_vendeur" class="text-gray-400 hover:text-black transition-colors block">Profil & Sécurité</a></li>
                         <li><a href="#" class="text-red-900/60 hover:text-red-900 transition-colors block">Déconnexion</a></li>
                     </ul>
                 </div>
