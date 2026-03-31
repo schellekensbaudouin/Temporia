@@ -21,17 +21,19 @@ CREATE TABLE USER (
 -- 3. Table ARTICLE
 CREATE TABLE ARTICLE (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    user_id INT NOT NULL, -- Liaison avec ta table USER
+    user_id INT, -- Liaison avec ta table USER
+    profil_vendeur_id INT NOT NULL,
     category_id INT NOT NULL,
     title VARCHAR(150) NOT NULL,
     description TEXT NOT NULL,
-    price INT NOT NULL,
+    price FLOAT NOT NULL,
     currency ENUM('$','€'),
     statut ENUM('actif', 'vendu', 'archive', 'ban') DEFAULT 'actif',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
-    FOREIGN KEY (user_id) REFERENCES USER(id) ON DELETE CASCADE,
+    FOREIGN KEY (profil_vendeur_id) REFERENCES PROFIL_VENDEUR(id) ON DELETE CASCADE,
+    FOREIGN KEY (user_id) REFERENCES USER(id) ON DELETE RESTRICT,
     FOREIGN KEY (category_id) REFERENCES CATEGORY(id) ON DELETE RESTRICT
 );
 
@@ -82,4 +84,14 @@ CREATE TABLE PROFIL_VENDEUR (
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
 
     FOREIGN KEY (user_id) REFERENCES USER(id) ON DELETE CASCADE
+);
+
+CREATE TABLE article_category (
+    article_id INT,
+    category_id INT,
+    -- Clé primaire composée : un article ne peut pas être deux fois dans la même catégorie
+    PRIMARY KEY (article_id, category_id),
+    -- Clés étrangères
+    FOREIGN KEY (article_id) REFERENCES ARTICLE(id) ON DELETE CASCADE,
+    FOREIGN KEY (category_id) REFERENCES CATEGORY(id) ON DELETE CASCADE
 );

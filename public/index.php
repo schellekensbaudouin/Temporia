@@ -45,6 +45,10 @@ switch ($action) {
             require_once ROOT . '/views/user/devenir_vendeur.php';
             break;
 
+    case 'creer_annonce':
+            require_once ROOT . '/views/annonces/creer_annonce.php';
+            break;
+
     default:
         // Optionnel : Gérer le cas où l'action n'existe pas
         http_response_code(404);
